@@ -1,12 +1,19 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-
+model Chat {
+  id       Int       @id @default(autoincrement())
+  index    Int      @unique
+  messages Message[] // one-to-many relation to Message
+}
 
 model Message {
-  id        Int      @id @default(autoincrement())
-  sender    String
-  text      String
+  id     Int    @id @default(autoincrement())
+  sender String
+  text   String
+  chatId Int // foreign key column
+
+  chat Chat @relation(fields: [chatId], references: [index])
 }
 
 generator client {
