@@ -1,76 +1,107 @@
-"use client";
-import React, { useState } from "react";
-import { useEffect } from "react";
+'use client';
+import React, { useState, useEffect } from 'react';
 
-export default function LeftSide({ onSelect }) {
+export default function LeftSide({ onSelect, id }) {
   const [chats, setChats] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/chat");
-        const result = await response.json();
-        let chats = [];
+  // console.log('left');
 
-        // Start from 1 and go up to result (inclusive)
-        for (let i = 1; i <= result; i++) {
-          chats.push({ index: i }); // Fixed: 'chats' not 'chat'
-        }
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/chat');
+      const result = await response.json();
+      let chats = [];
 
-        setChats(chats);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      for (let i = 1; i <= result; i++) {
+        chats.push({ index: i });
       }
-    };
 
-    fetchData();
-  }, []);
+      setChats(chats);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => fetchData(), []);
+
+  async function deleteChat(chatId) {
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ index: chatId }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      fetchData();
+
+      // Return success status
+      return { success: true, message: result };
+    } catch (error) {
+      console.error('Error deleting chat:', error);
+
+      // Return error status
+      return { success: false, error: error.message };
+    }
+  }
 
   async function addNewChat() {
     const newId = chats.length > 0 ? chats[chats.length - 1].index + 1 : 1;
-    console.log("Creating chat with ID:", newId);
-
     const newChatData = { index: newId };
-    console.log(newChatData);
 
     try {
-      // Save to database first
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newChatData),
       });
 
-      console.log("left response", response);
-
       if (response.ok) {
-        // Only update local state if database save was successful
         setChats((prev) => [...prev, newChatData]);
-        console.log("New chat added to database and state");
       } else {
-        console.error("Failed to create chat in database");
+        console.error('Failed to create chat in database');
       }
     } catch (error) {
-      console.error("Error creating chat:", error);
+      console.error('Error creating chat:', error);
     }
   }
 
   return (
-    <div>
-      <h2>Chat history</h2>
-      <button className="cursor-pointer" onClick={addNewChat}>
-        New Chat
+    <div className="fixed top-0 left-0 flex h-screen w-[15%] min-w-[180px] flex-col items-center rounded-r-2xl bg-gray-800 p-4 text-white shadow-lg">
+      <h2 className="mb-4 w-full border-b border-gray-600 pb-2 text-center text-2xl font-semibold">
+        Chat History
+      </h2>
+      <button
+        onClick={addNewChat}
+        className="mb-6 w-full rounded-full bg-blue-500 px-4 py-2 text-center font-medium text-white shadow-md transition-colors hover:bg-blue-600"
+      >
+        + New Chat
       </button>
-      <ul>
-        {chats.map((chat, id) => (
+      <ul className="flex w-full flex-col gap-2">
+        {chats.map((chat) => (
           <li
-            key={id}
-            onClick={() => {
-              if (onSelect) onSelect(chat.index);
-            }}
-            className="cursor-pointer"
+            key={chat.index}
+            className={`flex items-center justify-evenly rounded-xl px-3 py-2 text-center shadow-sm transition-colors hover:bg-gray-700 ${
+              id === chat.index && 'bg-gray-600'
+            }`}
           >
-            {`Chat ${chat.index}`}
+            <span
+              onClick={() => onSelect && onSelect(chat.index)}
+              className="cursor-pointer text-white"
+            >{`Chat ${chat.index}`}</span>
+            <button
+              onClick={() => deleteChat(chat.index)}
+              className="hover:bg-opacity-20 ml-2 cursor-pointer rounded-full p-1 transition-colors group-hover:opacity-100 hover:bg-red-500"
+              title="Delete chat"
+            >
+              X
+            </button>
           </li>
         ))}
       </ul>

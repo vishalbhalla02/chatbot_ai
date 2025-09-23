@@ -1,17 +1,17 @@
 'use client'; // <-- Required to use useState and interactivity
 
-import { useState } from "react";
-import LeftSide from "./leftSide";
-import RightSide from "./rightSide";
+import { useState } from 'react';
+import LeftSide from './leftSide';
+import RightSide from './rightSide';
 
 export default function Page() {
   const [id, setId] = useState(0);
-  console.log("id : ",id);
-  
+  // console.log("id : ",id);s
+  // console.log('Page');
 
   return (
-    <div className="flex justify-around">
-      <LeftSide onSelect={(selectedId) => setId(selectedId)} />
+    <div className="">
+      <LeftSide onSelect={(selectedId) => setId(selectedId)} id={id} />
       <RightSide id={id} />
     </div>
   );

@@ -13,7 +13,7 @@ model Message {
   text   String
   chatId Int // foreign key column
 
-  chat Chat @relation(fields: [chatId], references: [index])
+  chat Chat @relation(fields: [chatId], references: [index], onDelete: Cascade)
 }
 
 generator client {
