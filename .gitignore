@@ -38,4 +38,4 @@ npm-debug.log*
 next-env.d.ts
 
 /lib/generated/prisma
-/prisma/migrations
+
