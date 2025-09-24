@@ -1,5 +1,6 @@
 import prisma from '../../../lib/prisma';
 
+//CREATE A CHAT THROUGH INDEX
 export async function POST(req) {
   try {
     const { index } = await req.json();
@@ -17,14 +18,14 @@ export async function POST(req) {
   }
 }
 
+//FETCH ALL CHAT
 export async function GET(req) {
   try {
     const chats = await prisma.chat.findMany({
       orderBy: { index: 'asc' },
     });
-    const data = chats.length;
 
-    return new Response(JSON.stringify(data), { status: 200 });
+    return new Response(JSON.stringify(chats), { status: 200 });
   } catch (error) {
     console.error('Error fetching chats:', error);
     return new Response(JSON.stringify({ error: 'Server error' }), {
@@ -33,11 +34,10 @@ export async function GET(req) {
   }
 }
 
+//DELETE A CHAT
 export async function DELETE(req) {
   try {
     const { index } = await req.json();
-    // console.log("index", index);
-    // console.log("/chat api");
 
     const deletedChat = await prisma.chat.delete({
       where: { index: index },

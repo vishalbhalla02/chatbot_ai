@@ -4,26 +4,31 @@ import React, { useState, useEffect } from 'react';
 export default function LeftSide({ onSelect, id }) {
   const [chats, setChats] = useState([]);
 
-  // console.log('left');
+  // chat structure
+  // {
+  //   index : 1
+  // }
+  // //Run once only
 
+  useEffect(() => fetchData(), []);
+
+  // //Fetch existing chats
   const fetchData = async () => {
     try {
       const response = await fetch('/api/chat');
       const result = await response.json();
-      let chats = [];
+      console.log(result);
 
-      for (let i = 1; i <= result; i++) {
-        chats.push({ index: i });
-      }
+      const fetched_chats = result.map((item) => ({ index: item.index }));
+      console.log('fetched chats', fetched_chats);
 
-      setChats(chats);
+      setChats(fetched_chats);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  useEffect(() => fetchData(), []);
-
+  // //Delete a caht
   async function deleteChat(chatId) {
     try {
       const response = await fetch('/api/chat', {
@@ -51,6 +56,14 @@ export default function LeftSide({ onSelect, id }) {
     }
   }
 
+  //DELVELOPMENT DELETE CHAT
+  // async function deleteChat(chatId) {
+  //   const newItems = chats.filter((item) => item.index !== chatId);
+
+  //   setChats(newItems);
+  // }
+
+  //Add new chat
   async function addNewChat() {
     const newId = chats.length > 0 ? chats[chats.length - 1].index + 1 : 1;
     const newChatData = { index: newId };
@@ -72,6 +85,13 @@ export default function LeftSide({ onSelect, id }) {
     }
   }
 
+  //DEVELOPMENT ADD CHAT
+  // async function addNewChat() {
+  //   const newId = chats.length > 0 ? chats[chats.length - 1].index + 1 : 1;
+  //   const newChatData = { index: newId };
+  //   setChats((prev) => [...prev, newChatData]);
+  // }
+
   return (
     <div className="fixed top-0 left-0 flex h-screen w-[15%] min-w-[180px] flex-col items-center rounded-r-2xl bg-gray-800 p-4 text-white shadow-lg">
       <h2 className="mb-4 w-full border-b border-gray-600 pb-2 text-center text-2xl font-semibold">
@@ -91,10 +111,10 @@ export default function LeftSide({ onSelect, id }) {
               id === chat.index && 'bg-gray-600'
             }`}
           >
-            <span
+            <button
               onClick={() => onSelect && onSelect(chat.index)}
-              className="cursor-pointer text-white"
-            >{`Chat ${chat.index}`}</span>
+              className="w-3/4 cursor-pointer text-white"
+            >{`Chat ${chat.index}`}</button>
             <button
               onClick={() => deleteChat(chat.index)}
               className="hover:bg-opacity-20 ml-2 cursor-pointer rounded-full p-1 transition-colors group-hover:opacity-100 hover:bg-red-500"

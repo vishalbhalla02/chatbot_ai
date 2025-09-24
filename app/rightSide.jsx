@@ -9,8 +9,11 @@ export default function RightSide({ id: chatId }) {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // console.log('right');
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
 
+  //FETCH CHATS OF THE SELECTED ID
   useEffect(() => {
     if (!chatId) return;
 
@@ -24,19 +27,16 @@ export default function RightSide({ id: chatId }) {
       .catch((err) => console.error('Failed to fetch messages', err));
   }, [chatId]);
 
-  const handleChange = (e) => {
-    setText(e.target.value);
-  };
-
+  //SUBMIT CHAT HANDLING
   const handleSubmit = async () => {
     if (!text.trim() || isLoading) return;
 
     const userMessage = { sender: 'user', text, chatId: chatId };
-    setText('');
     let botMessage = { sender: 'bot', text: '', chatId: chatId };
 
     setIsLoading(true); // start loading
 
+    //API RESPONSE
     try {
       const res = await fetch('https://apifreellm.com/api/chat', {
         method: 'POST',
@@ -57,7 +57,10 @@ export default function RightSide({ id: chatId }) {
     }
 
     setMessages((prev) => [...prev, userMessage, botMessage]);
+    setText('');
+    setIsLoading(false); // stop loading
 
+    //UPDATING IN DATABASE
     try {
       await fetch('/api/message', {
         method: 'POST',
@@ -67,8 +70,6 @@ export default function RightSide({ id: chatId }) {
     } catch (err) {
       console.error('Failed to save messages to DB', err);
     }
-
-    setIsLoading(false); // stop loading
   };
 
   return (
