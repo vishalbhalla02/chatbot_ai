@@ -93,13 +93,13 @@ export default function LeftSide({ onSelect, id }) {
   // }
 
   return (
-    <div className="fixed top-0 left-0 flex h-screen w-[15%] min-w-[180px] flex-col items-center rounded-r-2xl bg-gray-800 p-4 text-white shadow-lg">
-      <h2 className="mb-4 w-full border-b border-gray-600 pb-2 text-center text-2xl font-semibold">
+    <div className="fixed top-0 left-0 flex h-[100vh] w-[15%] min-w-[110px] flex-col items-center rounded-r-2xl bg-gray-800 p-1 text-white lg:p-4">
+      <h2 className="mb-4 w-full border-b border-gray-600 pb-1 text-center text-base font-semibold lg:pb-2 lg:text-2xl">
         Chat History
       </h2>
       <button
         onClick={addNewChat}
-        className="mb-6 w-full rounded-full bg-blue-500 px-4 py-2 text-center font-medium text-white shadow-md transition-colors hover:bg-blue-600"
+        className="mb-2 w-full cursor-pointer rounded-full bg-blue-500 py-2 text-center font-medium text-white shadow-md transition-colors hover:bg-blue-600 lg:mb-6 lg:px-4"
       >
         + New Chat
       </button>
@@ -107,7 +107,7 @@ export default function LeftSide({ onSelect, id }) {
         {chats.map((chat) => (
           <li
             key={chat.index}
-            className={`flex items-center justify-evenly rounded-xl px-3 py-2 text-center shadow-sm transition-colors hover:bg-gray-700 ${
+            className={`flex items-center justify-evenly rounded-xl px-3 text-center shadow-sm transition-colors hover:bg-gray-700 lg:py-2 ${
               id === chat.index && 'bg-gray-600'
             }`}
           >

@@ -1,36 +1,164 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🤖 CHATBOT AI
 
-## Getting Started
+<div align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" alt="Prisma" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+</div>
 
-First, run the development server:
+<div align="center">
+  <p><em>An intelligent chatbot interface similar to OpenAI's frontend, built with modern web technologies</em></p>
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [🔍 Overview](#-overview)
+- [✨ Features](#-features)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+  - [📋 Prerequisites](#-prerequisites)
+  - [⚡ Installation](#-installation)
+  - [🏃‍♂️ Usage](#-usage)
+- [🤝 Contributing](#-contributing)
+
+---
+
+## 🔍 Overview
+
+**CHATBOT AI** is a modern, responsive chatbot interface that mimics the user experience of OpenAI's frontend. Built with Next.js and React, it provides a seamless chat experience with persistent conversation history and intelligent responses powered by free LLM APIs.
+
+---
+
+## ✨ Features
+
+🗨️ **Chat History Management** - Remember and access previous conversations  
+💾 **Data Storage** - Persistent storage using Prisma ORM  
+➕ **New Chat Generation** - Create fresh conversations instantly  
+🗑️ **Chat Deletion** - Remove unwanted conversation threads  
+🆓 **Free API Integration** - Powered by free LLM APIs  
+📱 **Responsive Design** - Works seamlessly across all devices  
+⚡ **Real-time Responses** - Fast and efficient chat experience
+
+---
+
+## 📁 Project Structure
+
+```
+chatbot_ai/
+├── 📄 README.md
+├── 📁 app/
+│   ├── 🔌 api/                 # API routes and endpoints
+│   ├── 🖼️ favicon.ico          # Site favicon
+│   ├── 🎨 globals.css          # Global styles
+│   ├── 📋 layout.js            # Root layout component
+│   ├── 🔧 leftSide.jsx         # Left sidebar component
+│   ├── 🏠 page.jsx             # Main page component
+│   └── 🔧 rightSide.jsx        # Right sidebar component
+├── ⚙️ eslint.config.mjs        # ESLint configuration
+├── 📋 jsconfig.json            # JavaScript configuration
+├── 📁 lib/
+│   └── 🔗 prisma.js            # Prisma client setup
+├── ⚙️ next.config.mjs          # Next.js configuration
+├── 📦 package-lock.json        # Dependency lock file
+├── 📦 package.json             # Project dependencies
+├── 🎨 postcss.config.mjs       # PostCSS configuration
+├── 📁 prisma/
+│   ├── 🔄 migrations/          # Database migrations
+│   └── 📊 schema.prisma        # Database schema
+└── 📁 utils/
+    └── 📁 component/           # Utility components
+```
+
+---
+
+## 🚀 Getting Started
+
+### 📋 Prerequisites
+
+Ensure your development environment has the following:
+
+- **Node.js** `v18.0.0` or higher
+- **npm** `v8.0.0` or higher
+- **Database** PostgreSQL(if you need other databse chenged in prismsa/schema.prisma)
+
+### ⚡ Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/vishalbhalla02/chatbot_ai.git
+   ```
+
+2. **Navigate to project directory**
+
+   ```bash
+   cd chatbot_ai
+   ```
+
+3. **Set up environment variables**
+
+   ```bash
+   # Create .env file and add your database URL
+   echo "DATABASE_URL=your_database_connection_string" > .env
+   ```
+
+4. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+5. **Set up database**
+   ```bash
+   npx prisma migrate dev
+   npx prisma generate
+   ```
+
+### 🏃‍♂️ Usage
+
+#### Development Mode
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` to view the application in development mode.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+#### Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+#### Database Management
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# View database
+npx prisma studio
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Reset database
+npx prisma migrate reset
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🤝 Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+We welcome contributions! Please follow these steps:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by <a href="https://github.com/vishalbhalla02">Vishal Bhalla</a></p>
+  <p>⭐ Star this project if you found it helpful!</p>
+</div>
