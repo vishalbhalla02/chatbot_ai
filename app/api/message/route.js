@@ -4,19 +4,17 @@ export async function POST(req) {
   try {
     const messages = await req.json();
 
-    // // Create messages
-    const createdMessages = messages.map(
-      async (msg) =>
-        await prisma.message.create({
-          data: {
-            sender: msg.sender,
-            text: msg.text,
-            chatId: msg.chatId,
-          },
-        })
-    );
+    for (const msg of messages) {
+      const created = await prisma.message.create({
+        data: {
+          sender: msg.sender,
+          text: msg.text,
+          chatId: msg.chatId,
+        },
+      });
+    }
 
-    return new Response(JSON.stringify('createdMessages'), { status: 201 });
+    return new Response(JSON.stringify(createdMessages), { status: 201 });
   } catch (error) {
     console.error('Error:', error);
     return new Response(JSON.stringify({ error: 'Server error' }), {
@@ -27,10 +25,7 @@ export async function POST(req) {
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-  // console.log(searchParams);
-
   const chatId = searchParams.get('chatId');
-  // console.log(chatId);
 
   if (!chatId) {
     return new Response(JSON.stringify({ error: 'Message ID is required' }), {
@@ -43,7 +38,6 @@ export async function GET(req) {
       chatId: Number(chatId),
     },
   });
-  // console.log(messages);
 
   if (!chatId) {
     return new Response(JSON.stringify({ error: 'Message not found' }), {
