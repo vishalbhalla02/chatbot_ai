@@ -37,6 +37,8 @@ export default function RightSide({ id: chatId }) {
     let botMessage = { sender: 'bot', text: '', chatId: chatId };
 
     setIsLoading(true); // start loading
+    setMessages((prev) => [...prev, userMessage]);
+    setText('');
 
     //API RESPONSE
     try {
@@ -57,7 +59,7 @@ export default function RightSide({ id: chatId }) {
       botMessage.text = 'Sorry, I couldn’t fetch advice.';
     }
 
-    setMessages((prev) => [...prev, userMessage, botMessage]);
+    setMessages((prev) => [...prev, botMessage]);
     setText('');
     setIsLoading(false); // stop loading
 

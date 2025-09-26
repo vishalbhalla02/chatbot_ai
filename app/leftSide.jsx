@@ -11,24 +11,23 @@ export default function LeftSide({ onSelect, id }) {
   // }
   // //Run once only
 
-  useEffect(() => fetchData(), []);
-
   // //Fetch existing chats
-  const fetchData = async () => {
-    try {
-      const response = await fetch('/api/chat');
-      const result = await response.json();
-      console.log(result);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/chat');
+        const result = await response.json();
 
-      const fetched_chats = result.map((item) => ({ index: item.index }));
-      console.log('fetched chats', fetched_chats);
+        const fetched_chats = result.map((item) => ({ index: item.index }));
 
-      setChats(fetched_chats);
-      setChatState(2);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+        setChats(fetched_chats);
+        setChatState(2);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   // //Delete a caht
   async function deleteChat(chatId) {
