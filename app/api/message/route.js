@@ -37,6 +37,9 @@ export async function GET(req) {
     where: {
       chatId: Number(chatId),
     },
+    orderBy: {
+      id: 'asc',
+    },
   });
 
   if (!chatId) {
