@@ -42,14 +42,14 @@ export default function RightSide({ id: chatId }) {
 
     //API RESPONSE
     try {
-      const res = await fetch('https://apifreellm.com/api/chat', {
+      const res = await fetch('/api/openai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         cache: 'no-store',
         body: JSON.stringify({
-          message: userMessage.text,
+          userMessage: userMessage.text,
         }),
       });
       const data = await res.json();

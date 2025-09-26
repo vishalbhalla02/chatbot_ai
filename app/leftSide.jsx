@@ -29,7 +29,7 @@ export default function LeftSide({ onSelect, id }) {
     fetchData();
   }, [id]);
 
-  // //Delete a caht
+  // //Delete a chat
   async function deleteChat(chatId) {
     try {
       const response = await fetch('/api/chat', {
@@ -45,8 +45,9 @@ export default function LeftSide({ onSelect, id }) {
       }
 
       const result = await response.json();
-      fetchData();
 
+      setChats((prevChats) => prevChats.filter((item) => item.index != chatId));
+      onSelect(0);
       // Return success status
       return { success: true, message: result };
     } catch (error) {

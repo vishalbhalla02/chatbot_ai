@@ -5,16 +5,15 @@ export async function POST(req) {
     const messages = await req.json();
 
     // // Create messages
-    const createdMessages = await Promise.all(
-      messages.map((msg) =>
-        prisma.message.create({
+    const createdMessages = messages.map(
+      async (msg) =>
+        await prisma.message.create({
           data: {
             sender: msg.sender,
             text: msg.text,
             chatId: msg.chatId,
           },
         })
-      )
     );
 
     return new Response(JSON.stringify('createdMessages'), { status: 201 });
