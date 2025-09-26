@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 
 export default function LeftSide({ onSelect, id }) {
   const [chats, setChats] = useState([]);
-
+  const [chatState, setChatState] = useState(0);
+  const chatStates = ['Fetching Chats', 'Creating Chat', 'Add Chat'];
   // chat structure
   // {
   //   index : 1
@@ -23,6 +24,7 @@ export default function LeftSide({ onSelect, id }) {
       console.log('fetched chats', fetched_chats);
 
       setChats(fetched_chats);
+      setChatState(2);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -67,7 +69,7 @@ export default function LeftSide({ onSelect, id }) {
   async function addNewChat() {
     const newId = chats.length > 0 ? chats[chats.length - 1].index + 1 : 1;
     const newChatData = { index: newId };
-
+    setChatState(1);
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -77,6 +79,8 @@ export default function LeftSide({ onSelect, id }) {
 
       if (response.ok) {
         setChats((prev) => [...prev, newChatData]);
+        setChatState(2);
+        return newId;
       } else {
         console.error('Failed to create chat in database');
       }
@@ -98,10 +102,14 @@ export default function LeftSide({ onSelect, id }) {
         Chat History
       </h2>
       <button
-        onClick={addNewChat}
+        onClick={async () => {
+          const newId = await addNewChat();
+          onSelect(newId);
+          // console.log(newId);
+        }}
         className="mb-2 w-full cursor-pointer rounded-full bg-blue-500 py-2 text-center font-medium text-white shadow-md transition-colors hover:bg-blue-600 lg:mb-6 lg:px-4"
       >
-        + New Chat
+        {chatStates[chatState]}
       </button>
       <ul className="flex w-full flex-col gap-2">
         {chats.map((chat) => (

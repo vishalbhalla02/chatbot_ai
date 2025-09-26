@@ -6,8 +6,6 @@ import RightSide from './rightSide';
 
 export default function Page() {
   const [id, setId] = useState(0);
-  // console.log("id : ",id);s
-  // console.log('Page');
 
   return (
     <div className="">
